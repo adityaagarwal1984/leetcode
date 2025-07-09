@@ -1,41 +1,18 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 class Solution {
     public boolean isValid(String s) {
-        Stack<Character> st= new Stack<>();
-        for(int i=0;i<s.length();i++)
-        {
-            char ch= s.charAt(i);
-            if(st.isEmpty() && (ch==')'|| ch=='}' || ch==']'))
-            return false;
-            
+        Deque<Character> stack = new ArrayDeque<>();
 
-            if(ch=='(' || ch=='{' || ch=='[')
-            st.push(ch);
-            if(!st.isEmpty() && ch==')')
-            {
-                if(st.peek()=='(')
-                st.pop();
-                else
-                st.push(ch);
-
-            }
-            if(!st.isEmpty() && ch=='}')
-            {
-                if(st.peek()=='{')
-                st.pop();
-                else
-                st.push(ch);
-
-            }
-            if(!st.isEmpty() && ch==']')
-            {
-                if(st.peek()=='[')
-                st.pop();
-                else
-                st.push(ch);
-
+        for (char ch : s.toCharArray()) {
+            if (ch == '(') stack.push(')');
+            else if (ch == '{') stack.push('}');
+            else if (ch == '[') stack.push(']');
+            else {
+                if (stack.isEmpty() || stack.pop() != ch) return false;
             }
         }
-        return st.isEmpty();
-        
+        return stack.isEmpty();
     }
 }
