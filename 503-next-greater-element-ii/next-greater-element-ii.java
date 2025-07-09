@@ -8,6 +8,7 @@ class Solution {
             int idx= i%n;
         while(!st.isEmpty() && st.peek()<=nums[idx])
         st.pop();
+        
 
         if(i<n)
         nge[idx]= st.isEmpty()?-1 : st.peek();
