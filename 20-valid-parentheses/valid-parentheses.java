@@ -4,12 +4,9 @@ class Solution {
         for(int i=0;i<s.length();i++)
         {
             char ch= s.charAt(i);
-            if(st.isEmpty() && ch==')')
+            if(st.isEmpty() && (ch==')'|| ch=='}' || ch==']'))
             return false;
-            if(st.isEmpty() && ch=='}')
-            return false;
-            if(st.isEmpty() && ch==']')
-            return false;
+            
 
             if(ch=='(' || ch=='{' || ch=='[')
             st.push(ch);
