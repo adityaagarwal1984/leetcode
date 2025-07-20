@@ -23,20 +23,7 @@ class Solution {
         return true;
         else
         return false;
-        
+       
+
     }
-    // public void inorder(TreeNode node,List<Integer> list)
-    // {
-    //     if(node==null)
-
-    //     {
-    //         list.add(-1);
-    //         return;
-    //     }
-        
-    //     list.add(node.val);
-    //     inorder(node.left,list);
-    //     inorder(node.right,list);
-
-    // }
 }
