@@ -6,7 +6,7 @@ class Solution {
         int arr[][]= new int[m][n];
         for(int i=0;i<m;i++)
         {
-            Arrays.fill(arr[i],-1);
+            Arrays.fill(arr[i],Integer.MIN_VALUE);
         }
         return path(0,0,m,n,grid,arr);
     }
@@ -16,9 +16,9 @@ class Solution {
         return Integer.MAX_VALUE;
         if(i==m-1 && j==n-1)
         return a[m-1][n-1];
-        if(arr[i][j]!=-1)
+        if(arr[i][j]!=Integer.MIN_VALUE)
         return arr[i][j];
-       int s1= path(i+1,j,m,n,a,arr);
+       int s1=path(i+1,j,m,n,a,arr);
        int s2=path(i,j+1,m,n,a,arr);
        return arr[i][j]= a[i][j]+Math.min(s1,s2);
     }
