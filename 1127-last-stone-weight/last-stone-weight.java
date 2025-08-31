@@ -2,24 +2,19 @@ import java.util.*;
 
 class Solution {
     public int lastStoneWeight(int[] stones) {
-        List<Integer> list = new ArrayList<>();
-        for (int num : stones) {
-            list.add(num);
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        for (int stone : stones) {
+            maxHeap.add(stone);
         }
 
-        while (list.size() > 1) {
-            Collections.sort(list, Collections.reverseOrder()); // sort descending
-            int x = list.get(0);
-            int y = list.get(1);
-
-            list.remove(0); // remove x
-            list.remove(0); // remove y (now at index 0)
-
+        while (maxHeap.size() > 1) {
+            int x = maxHeap.poll();
+            int y = maxHeap.poll();
             if (x != y) {
-                list.add(x - y); // push back difference
+                maxHeap.add(x - y);
             }
         }
 
-        return list.isEmpty() ? 0 : list.get(0);
+        return maxHeap.isEmpty() ? 0 : maxHeap.poll();
     }
 }
