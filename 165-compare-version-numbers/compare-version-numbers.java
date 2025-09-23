@@ -3,19 +3,19 @@ class Solution {
          String[] parts = version1.split("\\."); 
 
         
-        for (int i = 0; i < parts.length; i++) {
-            parts[i] = parts[i].replaceFirst("^0+(?!$)", "");
-            // char[] charArr = parts[i].toCharArray(); 
-        } 
+        // for (int i = 0; i < parts.length; i++) {
+        //     parts[i] = parts[i].replaceFirst("^0+(?!$)", "");
+        //     // char[] charArr = parts[i].toCharArray(); 
+        // } 
 
             String[] parts1 = version2.split("\\.");
          
 
         
-        for (int i = 0; i < parts1.length; i++) {
-            parts1[i] = parts1[i].replaceFirst("^0+(?!$)", "");
-            // char[] charArr1 = parts1[i].toCharArray(); 
-        }   
+        // for (int i = 0; i < parts1.length; i++) {
+        //     parts1[i] = parts1[i].replaceFirst("^0+(?!$)", "");
+        //     // char[] charArr1 = parts1[i].toCharArray(); 
+        // }   
 
              int n = Math.max(parts.length, parts1.length);
 
