@@ -10,52 +10,33 @@
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        if(head==null )
-        return  null;
-        ListNode temp=head;
-        int l=0;
-        while(temp!=null)
-        {
-            l++;
-            temp=temp.next;
-        }
-        k=k%l;
-        if(k==0 )
-        return head;
-        // if(k==l)
-        // return reverse(head);
-        int moves=l-k-1;
-        temp=head;
-        while(moves>0)
-        {
-            temp=temp.next;
-            moves--;
-        }
-        ListNode dummy= new ListNode(-1);
-        dummy.next=temp.next;
-        temp.next=null;
-        ListNode node=dummy.next;
-        while(node.next!=null)
-        {
-            node=node.next;
-        }
-        node.next=head;
-        return dummy.next;
+        if (head == null || head.next == null || k == 0) return head;
 
-
-        
-    }
-    public ListNode reverse(ListNode head)
-    {
-        ListNode prev=null;
-        ListNode curr=head;
-        while(curr!=null)
-        {
-            ListNode next=curr.next;
-            curr.next=prev;
-            prev=curr;
-            curr=next;
+        // Step 1: Find the length of the list and get the tail
+        ListNode temp = head;
+        int len = 1;
+        while (temp.next != null) {
+            len++;
+            temp = temp.next;
         }
-        return prev;
+
+        // Step 2: Connect tail to head to make it circular
+        temp.next = head;
+
+        // Step 3: Find the new head position (len - k % len - 1) moves from start
+        k = k % len;
+        int moves = len - k;
+
+        // Step 4: Move to the new tail
+        ListNode newTail = head;
+        for (int i = 1; i < moves; i++) {
+            newTail = newTail.next;
+        }
+
+        // Step 5: Set new head and break the circle
+        ListNode newHead = newTail.next;
+        newTail.next = null;
+
+        return newHead;
     }
 }
