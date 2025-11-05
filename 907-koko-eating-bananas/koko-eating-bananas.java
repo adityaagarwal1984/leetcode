@@ -1,29 +1,45 @@
-import java.util.*;
-
 class Solution {
     public int minEatingSpeed(int[] piles, int h) {
-        int max = 0;
-        for (int x : piles) max = Math.max(max, x);
-
-        int l = 1, u = max, ans = max;
-        while (l <= u) {
-            int mid = l + (u - l) / 2;
-            if (canEatAll(piles, h, mid)) {
-                ans = mid;
-                u = mid - 1;
-            } else {
-                l = mid + 1;
+        
+        if(piles.length>h)
+        return -1;
+        int lb=1;
+        int max=Integer.MIN_VALUE;
+        for(int num:piles)
+        max=Math.max(max,num);
+        int ub=max;
+        int ans=-1;
+        while(lb<=ub)
+        {
+            int mid=lb+(ub-lb)/2;
+            if(caneat(piles,h,mid))
+            {
+                ans=mid;
+                ub=mid-1;
             }
+            else
+            {
+                lb=mid+1;
+            }
+
         }
         return ans;
     }
-
-    private boolean canEatAll(int[] piles, int h, int speed) {
-        long hrs = 0;
-        for (int x : piles) {
-            hrs += (x + (long) speed - 1) / speed; // ceil division
-            if (hrs > h) return false;             // early exit
+    public boolean caneat(int arr[],int hrs,int speed)
+    {
+        int hours=0;
+        for(int num:arr)
+        {
+            if(num%speed==0)
+            hours+=num/speed;
+            else
+            hours+=(num/speed)+1;
+            if(hours>hrs)
+            return false;
         }
-        return hrs <= (long) h;
+        if(hours<=hrs)
+        return true;
+        else
+        return false;
     }
 }
