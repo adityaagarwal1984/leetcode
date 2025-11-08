@@ -1,39 +1,28 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> list= new ArrayList<>();
-        List<Integer> slist= new ArrayList<>();
-        solve(candidates,target,list,slist,candidates.length-1);
-        return list;
+        List<List<Integer>> ans= new ArrayList<>();
+        solve(candidates,target,new ArrayList<>(),ans,0);
+        return ans;
         
     }
-    public void solve(int arr[],int tar,List<List<Integer>> list,List<Integer>slist,int i)
+public void solve(int arr[],int tar,List<Integer> list,List<List<Integer>> ans,int i)
+{
+    if(i==arr.length)
     {
-        //base condition
-        if(tar==0){
-        list.add(new ArrayList<>(slist));
-        return;
-        }
-        if (i == 0) {
-            if (tar % arr[0] == 0) { // can we form target using arr[0] repeatedly?
-                int count = tar / arr[0];
-                for (int k = 0; k < count; k++) {
-                    slist.add(arr[0]);
-                }
-                list.add(new ArrayList<>(slist));
-                for (int k = 0; k < count; k++) {
-                    slist.remove(slist.size() - 1); // backtrack
-                }
-            }
-            return;
-        }
-
-        if(arr[i]<=tar)
+        if(tar==0)
         {
-            slist.add(arr[i]);
-            solve(arr, tar-arr[i],list,slist, i);
-            slist.remove(slist.size() - 1);
-
+            ans.add(new ArrayList<>(list));
+            
         }
-        solve(arr, tar,list,slist, i-1);
+        return;
     }
+    if(arr[i]<=tar)
+    {
+         list.add(arr[i]);
+         solve(arr,tar-arr[i],list,ans,i);
+         list.remove(list.size()-1);
+    }
+         solve(arr,tar,list,ans,i+1);
+    
+}
 }
