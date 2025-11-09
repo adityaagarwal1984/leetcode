@@ -1,43 +1,33 @@
 class Solution {
-    public int[] asteroidCollision(int[] asteroids) {
-        Stack<Integer> st= new Stack<>();
-        List<Integer> list= new ArrayList<>();
-        for(int i=0;i<asteroids.length;i++)
-        {
-            if(asteroids[i]>0)
-            st.push(asteroids[i]);
-            else
-            {
-                while(!st.isEmpty() && st.peek()>0 && st.peek()< Math.abs(asteroids[i]))
-                {
-                    st.pop();
-                }
-                if(st.isEmpty() || st.peek()<0)
-                st.push(asteroids[i]);
-                else if(Math.abs(asteroids[i])==st.peek())
-                st.pop();
+    public int[] asteroidCollision(int[] arr) {
+        Stack<Integer> st = new Stack<>();
 
-                 
-                
-                
+        for (int a : arr) {
+            boolean destroyed = false;
+
+            while (!st.isEmpty() && a < 0 && st.peek() > 0) {
+                if (Math.abs(a) > st.peek()) {
+                    st.pop(); // destroy smaller right asteroid
+                    continue;
+                } else if (Math.abs(a) == st.peek()) {
+                    st.pop(); // both destroyed
+                    destroyed = true;
+                    break;
+                } else {
+                    destroyed = true; // current one destroyed
+                    break;
+                }
             }
 
+            if (!destroyed) {
+                st.push(a);
+            }
         }
-        while(!st.isEmpty())
-        {
-            list.add(st.pop());
+
+        int[] ans = new int[st.size()];
+        for (int i = st.size() - 1; i >= 0; i--) {
+            ans[i] = st.pop();
         }
-        Collections.reverse(list);
-        int arr[]= new int[list.size()];
-        for(int i=0;i<list.size();i++)
-        {
-            arr[i]=list.get(i);
-        }
-        return arr;
-        
-
-
-
-        
+        return ans;
     }
 }
