@@ -1,40 +1,29 @@
 class Solution {
-
-    public int[] prefixmax(int arr[])
-    {
-        int pre[]= new int [arr.length];
-        pre[0]=arr[0];
-        for(int i=1;i<arr.length;i++)
-        {
-            pre[i]=Math.max(pre[i-1],arr[i]);
-        }
-        return pre;
-    }
-    public int[] suffixmax(int arr[])
-    {
-        int suf[]= new int[ arr.length];
-        suf[arr.length-1]=arr[arr.length-1];
-        for(int j=arr.length-2;j>=0;j--)
-        {
-            suf[j]=Math.max(suf[j+1],arr[j]);
-        }
-        return suf;
-    }
     public int trap(int[] height) {
-        if(height.length==0)
-        return 0;
-        int prefixmax[]=prefixmax(height);
-        int suffixmax[]=suffixmax(height);
-        int total=0;
-        for(int i=0;i<height.length;i++)
-        {
-            if(height[i]<prefixmax[i] && height[i]<suffixmax[i])
-            {
-                total+=Math.min(prefixmax[i],suffixmax[i])-height[i];
-            }
+        int n = height.length;
+        if (n == 0) return 0;
+
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+
+        // Build left max array
+        leftMax[0] = height[0];
+        for (int i = 1; i < n; i++) {
+            leftMax[i] = Math.max(leftMax[i - 1], height[i]);
         }
-        return total;
-        
-        
+
+        // Build right max array
+        rightMax[n - 1] = height[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            rightMax[i] = Math.max(rightMax[i + 1], height[i]);
+        }
+
+        // Calculate trapped water
+        int trappedWater = 0;
+        for (int i = 0; i < n; i++) {
+            trappedWater += Math.min(leftMax[i], rightMax[i]) - height[i];
+        }
+
+        return trappedWater;
     }
 }
