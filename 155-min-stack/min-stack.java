@@ -8,28 +8,27 @@ class MinStack {
     
     public void push(int val) {
         st.push(val);
-        if(s.isEmpty() || val<=s.peek())
+        if(s.isEmpty() || s.peek()>=val)
         s.push(val);
-        
     }
     
     public void pop() {
        int num= st.pop();
-       if(s.peek()==num)
-       s.pop();
-        
+        if(s.peek()==num)
+        s.pop();
+
     }
     
     public int top() {
+        if(!st.isEmpty())
         return st.peek();
-        
+        return -1;
     }
     
     public int getMin() {
-        
+        if(!s.isEmpty())
         return s.peek();
-
-        
+        return -1;
     }
 }
 
