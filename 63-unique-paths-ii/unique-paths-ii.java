@@ -1,31 +1,27 @@
 class Solution {
-    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m= obstacleGrid.length;
-        int n=obstacleGrid[0].length;
-        int arr[][]= new int[m][n];
-        for(int i=0;i<m;i++)
-        Arrays.fill(arr[i],-1);
-        if(obstacleGrid[m-1][n-1]==1)
-        return 0;
+    public int uniquePathsWithObstacles(int[][] a) {
+        int dp[][]= new int[a.length][a[0].length];
+        for(int i=0;i<a.length;i++)
+        {
+            Arrays.fill(dp[i],-1);
+        }
+        return raste(a,0,0,a.length,a[0].length,dp);
+
         
-        return path(0,0,m,n,arr,obstacleGrid);
     }
-    public int  path(int i,int j,int m,int n,int arr[][],int a[][])
+    public int raste(int arr[][],int i,int j,int m,int n,int dp[][])
     {
-        if(i==m || j==n)
+        if(i>=m || j>=n)
+        return 0;
+        if( arr[i][j]==1)
         return 0;
         if(i==m-1 && j==n-1)
         return 1;
-        if(a[i][j]==1)
-        return 0;
-        if(arr[i][j]!=-1)
-        return arr[i][j];
         
-        int right=path(i,j+1,m,n,arr,a);
-        
-        int bottom= path(i+1,j,m,n,arr,a);
-        return  arr[i][j]=right+bottom;
+        if(dp[i][j]!=-1)
+        return dp[i][j];
+        int right=raste(arr,i,j+1,m,n,dp);
+        int down=raste(arr,i+1,j,m,n,dp);
+        return dp[i][j]=right+down;
     }
 }
-        
-    
