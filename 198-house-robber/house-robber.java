@@ -1,25 +1,20 @@
 class Solution {
     public int rob(int[] nums) {
-        int arr[]= new int[nums.length];
-        for(int i=0;i<arr.length;i++)
-        {
-            arr[i]=-1;
-        }
-        return fun(arr,nums,nums.length-1);
-
-        
+    int arr[]= new int[nums.length];
+    Arrays.fill(arr,-1);
+    return theft(nums,nums.length-1,arr);
         
     }
-    public int fun(int arr[],int nums[],int i)
+    public int theft(int arr[],int i,int dp[])
     {
-        if(i==0)
-        return nums[i];
         if(i<0)
         return 0;
-        if(arr[i]!=-1)
-        return arr[i];
-        int pick= nums[i]+fun(arr,nums,i-2);
-        int not=fun(arr,nums,i-1);
-        return arr[i]= Math.max(pick,not);
+        if(dp[i]!=-1)
+        return dp[i];
+        int nottake=theft(arr,i-1,dp);
+        int take= arr[i]+theft(arr,i-2,dp);
+        return dp[i]=Math.max(take,nottake);
+
+
     }
 }
