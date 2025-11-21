@@ -1,24 +1,40 @@
-import java.util.*;
+public class Number implements Comparable<Number>
+{
+    int ele;
+    int freq;
+    Number(int e,int f)
+    {
+        ele=e;
+        freq=f;
+    }
+    @Override
+    public int compareTo(Number that)
+{
+return that.freq-this.freq;
+}
+}
+
 
 class Solution {
+
     public int[] topKFrequent(int[] nums, int k) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
+        HashMap<Integer,Integer> map= new HashMap<>();
+        for(int num:nums)
+        {
+            map.put(num,map.getOrDefault(num,0)+1);
         }
-
-        // Convert entrySet into a list
-        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(map.entrySet());
-
-        // Sort by frequency (value) in descending order
-        Collections.sort(list, (a, b) -> b.getValue() - a.getValue());
-
-        // Take top k keys
-        int[] ans = new int[k];
-        for (int i = 0; i < k; i++) {
-            ans[i] = list.get(i).getKey();
+        PriorityQueue<Number> pq= new PriorityQueue<>();
+        for(Map.Entry<Integer,Integer> entry: map.entrySet())
+        {
+            Number n= new Number(entry.getKey(),entry.getValue());
+            pq.offer(n);
         }
-
-        return ans;
+        int arr[]= new int[k];
+        int i=0;
+        while(i<k)
+        {
+            arr[i++]=pq.poll().ele;
+        }
+        return arr;
     }
 }
