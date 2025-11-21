@@ -1,40 +1,29 @@
-public class Number implements Comparable<Number>
-{
-    int ele;
-    int freq;
-    Number(int e,int f)
-    {
-        ele=e;
-        freq=f;
-    }
-    @Override
-    public int compareTo(Number that)
-{
-return that.freq-this.freq;
-}
-}
-
-
 class Solution {
 
     public int[] topKFrequent(int[] nums, int k) {
-        HashMap<Integer,Integer> map= new HashMap<>();
-        for(int num:nums)
-        {
-            map.put(num,map.getOrDefault(num,0)+1);
+
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
-        PriorityQueue<Number> pq= new PriorityQueue<>();
-        for(Map.Entry<Integer,Integer> entry: map.entrySet())
-        {
-            Number n= new Number(entry.getKey(),entry.getValue());
-            pq.offer(n);
+
+        // MAX HEAP (no Comparable needed)
+        PriorityQueue<int[]> pq = new PriorityQueue<>(
+            (a, b) -> b[1] - a[1]        // sort by freq descending
+        );
+
+        for (Map.Entry<Integer,Integer> e : map.entrySet()) {
+            pq.offer(new int[]{e.getKey(), e.getValue()});
         }
-        int arr[]= new int[k];
-        int i=0;
-        while(i<k)
-        {
-            arr[i++]=pq.poll().ele;
+
+        int[] ans = new int[k];
+        int i = 0;
+
+        while (i < k) {
+            ans[i++] = pq.poll()[0];
         }
-        return arr;
+
+        return ans;
     }
 }
