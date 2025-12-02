@@ -17,42 +17,18 @@ class Solution {
     public int sumNumbers(TreeNode root) {
         if(root==null)
         return 0;
-        int sum=0;
-
-        List<List<Integer>> ans= new ArrayList<>();
-     List<Integer> ls= new ArrayList<>();
-    
-     helper(root,ans,ls);
-    for(List<Integer> l:ans)
-    {
-        int n=0;
-        for(int num:l)
-        {
-            n=n*10+num;
-        }
-        sum+=n;
-    }
-    return sum;
+        return sum(root,0);
         
     }
-    public void helper (TreeNode root,List<List<Integer>> ans,List<Integer> ls)
+    public int sum(TreeNode root,int cur)
     {
         if(root==null)
-        return;
-       ls.add(root.val);
-     if(root.left==null && root.right==null)
-     {
-        ans.add(new ArrayList<>(ls));
-     }
-
-     if(root.left!=null)
-     {
-         helper(root.left,ans,ls);
-     }
-     if(root.right!=null)
-     {
-          helper(root.right,ans,ls);
-     }
-    ls.remove(ls.size()-1);
+        return 0;
+        cur=cur*10+root.val;
+        if(root.left==null && root.right==null)
+        return cur;
+        int left=sum(root.left,cur);
+        int right=sum(root.right,cur);
+        return left+right;
     }
 }
