@@ -1,24 +1,22 @@
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        int m = triangle.size();
-        int[][] memo = new int[m][];
-        for (int i = 0; i < m; i++) {
-            memo[i] = new int[i + 1];
-            Arrays.fill(memo[i], Integer.MIN_VALUE);
-        }
-        return dfs(0, 0, triangle, memo);
+        int n=triangle.size();
+        int dp[][]=new int[n][n];
+        for(int i=0;i<n;i++)
+        Arrays.fill(dp[i],Integer.MAX_VALUE);
+        return minpathsum(triangle,0,0,0,dp);
+        
     }
+    public int minpathsum(List<List<Integer>> ls,int i,int j,int sum,int dp[][])
+    {
+        if(i==ls.size())
+        return sum;
+        if(dp[i][j]!=Integer.MAX_VALUE)
+        return dp[i][j];
+        int one=ls.get(i).get(j)+minpathsum(ls,i+1,j,sum,dp);
+        int two=ls.get(i).get(j)+minpathsum(ls,i+1,j+1,sum,dp);
+        return dp[i][j]= Math.min(one,two);
 
-    private int dfs(int i, int j, List<List<Integer>> triangle, int[][] memo) {
-        if (i == triangle.size() - 1)
-            return triangle.get(i).get(j);
 
-        if (memo[i][j] != Integer.MIN_VALUE)
-            return memo[i][j];
-
-        int down = dfs(i + 1, j, triangle, memo);
-        int diag = dfs(i + 1, j + 1, triangle, memo);
-
-        return memo[i][j] = triangle.get(i).get(j) + Math.min(down, diag);
     }
 }
