@@ -1,23 +1,18 @@
 class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
-        int l1= text1.length();
-        int l2=text2.length();
-        int arr[][]= new int[l1][l2];
-        for(int i=0;i<l1;i++)
-        {
-            Arrays.fill(arr[i],-1);
-        }
-        return check(text1,text2,l1-1,l2-1,arr);
-        
+        int dp[][]= new int[text1.length()+1][text2.length()+1];
+        for(int i=0;i<text1.length()+1;i++)
+        Arrays.fill(dp[i],Integer.MIN_VALUE);
+        return length(text1,text2,text1.length()-1,text2.length()-1,dp);
     }
-    public int check(String s1,String s2,int i1,int i2,int arr[][])
+    public int length(String s1,String s2,int idx1,int idx2,int dp[][])
     {
-        if(i1<0 || i2<0)
+        if(idx1<0 || idx2<0)
         return 0;
-        if(arr[i1][i2]!=-1)
-        return arr[i1][i2];
-        if(s1.charAt(i1)==s2.charAt(i2))
-        return arr[i1][i2]= 1+check(s1,s2,i1-1,i2-1,arr);
-        return arr[i1][i2]=Math.max(check(s1,s2,i1-1,i2,arr),check(s1,s2,i1,i2-1,arr));
+        if(dp[idx1][idx2]!=Integer.MIN_VALUE)
+        return dp[idx1][idx2];
+        if(s1.charAt(idx1)==s2.charAt(idx2))
+        return 1+length(s1,s2,idx1-1,idx2-1,dp);
+        return dp[idx1][idx2]=Math.max(length(s1,s2,idx1-1,idx2,dp),length(s1,s2,idx1,idx2-1,dp));
     }
 }
