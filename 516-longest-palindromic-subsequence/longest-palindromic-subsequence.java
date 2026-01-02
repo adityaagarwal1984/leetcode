@@ -1,28 +1,37 @@
 class Solution {
     public int longestPalindromeSubseq(String s) {
-        // first figure out the longest comon subsequence
-        StringBuilder sb= new StringBuilder();
-        sb.append(s).reverse();
-        String st= sb.toString();
-        int m= s.length();
-        int n=st.length();
-        int arr[][]= new int[m][n];
-        for(int i=0;i<m;i++)
-        {
-            Arrays.fill(arr[i],-1);
-        }
-        return lcs(s,st,s.length()-1,st.length()-1,arr);
-    
-        
+        StringBuilder sb= new StringBuilder(s);
+        String rev=sb.reverse().toString();
+        return longestpalinlength(s,rev);
+
     }
-    public int lcs(String s1,String s2,int i,int j,int arr[][])
+    public int longestpalinlength(String s1,String s2)
     {
-        if(i<0 || j<0)
-        return 0;
-        if(arr[i][j]!=-1)
-        return arr[i][j];
-        if(s1.charAt(i) ==s2.charAt(j))
-        return arr[i][j]= 1+lcs(s1,s2,i-1,j-1,arr);
-        return  arr[i][j]=Math.max(lcs(s1,s2,i-1,j,arr),lcs(s1,s2,i,j-1,arr));
+        int m=s1.length();
+        int n=s2.length();
+
+        int dp[][]= new int[m+1][n+1];
+        for(int i=0;i<=m;i++)
+        {
+            dp[i][0]=0;
+
+        }
+        for(int j=0;j<=n;j++)
+        {
+            dp[0][j]=0;
+        }
+        for(int i=1;i<=m;i++)
+        {
+            for(int j=1;j<=n;j++)
+            {
+                if(s1.charAt(i-1)==s2.charAt(j-1))
+                dp[i][j]=1+dp[i-1][j-1];
+                else
+                {
+                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        return dp[m][n];
     }
 }
