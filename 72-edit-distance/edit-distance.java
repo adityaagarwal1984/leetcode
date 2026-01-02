@@ -1,24 +1,34 @@
 class Solution {
     public int minDistance(String word1, String word2) {
-        int dp[][]= new int[word1.length()][word2.length()];
-        for(int i=0;i<word1.length();i++)
-        Arrays.fill(dp[i],Integer.MAX_VALUE);
-        return calculate(word1,word2,word1.length()-1,word2.length()-1,dp);
-    }
-    public int calculate(String st1,String st2,int idx1,int idx2,int dp[][])
-    {
-        if(idx1<0)
-        return idx2+1;
-        if(idx2<0)
-        return idx1+1;
-        if(dp[idx1][idx2]!=Integer.MAX_VALUE)
-        return dp[idx1][idx2];
-        if(st1.charAt(idx1)==st2.charAt(idx2))
-        return dp[idx1][idx2]=calculate(st1,st2,idx1-1,idx2-1,dp);
-        int insert=1+calculate(st1,st2,idx1,idx2-1,dp);
-        int delete=1+calculate(st1,st2,idx1-1,idx2,dp);
-        int update=1+calculate(st1,st2,idx1-1,idx2-1,dp);
-        return dp[idx1][idx2]=Math.min(Math.min(insert,delete),update);
 
+        int n = word1.length();
+        int m = word2.length();
+
+        int[][] dp = new int[n + 1][m + 1];
+
+        // BASE CONDITIONS (copied directly from recursion)
+        for (int i = 0; i <= n; i++)
+            dp[i][0] = i;      // idx2 < 0
+
+        for (int j = 0; j <= m; j++)
+            dp[0][j] = j;      // idx1 < 0
+
+        // FILL TABLE (bottom-up)
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    int insert  = 1 + dp[i][j - 1];
+                    int delete  = 1 + dp[i - 1][j];
+                    int replace = 1 + dp[i - 1][j - 1];
+
+                    dp[i][j] = Math.min(insert, Math.min(delete, replace));
+                }
+            }
+        }
+
+        return dp[n][m];
     }
 }
