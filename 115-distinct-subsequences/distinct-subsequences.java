@@ -1,28 +1,26 @@
 class Solution {
     public int numDistinct(String s, String t) {
-        int arr[][]= new int[s.length()][t.length()];
-        for(int i=0;i<s.length();i++)
+        int m=s.length();
+        int n=t.length();
+        int dp[][]= new int[m+1][n+1];
+        for(int i=0;i<=m;i++)
+        dp[i][0]=1;
+        for(int j=1;j<=n;j++)
+        dp[0][j]=0;
+        for(int i=1;i<=m;i++)
         {
-            Arrays.fill(arr[i],-1);
+            for(int j=1;j<=n;j++)
+            {
+                if(s.charAt(i-1)==t.charAt(j-1))
+                {
+                    dp[i][j]=dp[i-1][j]+dp[i-1][j-1];
+                }
+                else
+                {
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
         }
-
-        return numberofseq(s,t,s.length()-1,t.length()-1,arr);
+        return dp[m][n];
     }
-    public int numberofseq(String s,String t,int i,int j ,int arr[][])
-    {
-        if( j<0)
-        return 1;
-        if(i<0)
-        return 0;
-        if(arr[i][j]!=-1)
-        return arr[i][j];
-        if(s.charAt(i)==t.charAt(j))
-        {
-            return  arr[i][j]=numberofseq(s,t,i-1,j-1,arr)+numberofseq(s,t,i-1,j,arr);
-        }
-        else
-       return arr[i][j]= numberofseq(s,t,i-1,j,arr);
-
-    }
-
 }
