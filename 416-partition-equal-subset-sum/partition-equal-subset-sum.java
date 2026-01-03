@@ -28,16 +28,5 @@ class Solution {
         }
         return dp[nums.length-1][tar];
     }
-    public boolean solve(int arr[],int idx,int tar)
-    {
-        if(idx==0)
-        {
-            return (arr[0]==tar)?true:false;
-        }
-        boolean nottake=solve(arr,idx-1,tar);
-        boolean take=false;
-        if(arr[idx]<=tar)
-        take=solve(arr,idx-1,tar-arr[idx]);
-        return take|nottake;
-    }
+   
 }
