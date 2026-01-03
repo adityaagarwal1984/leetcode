@@ -1,33 +1,43 @@
 class Solution {
     public boolean canPartition(int[] nums) {
-        int n= nums.length;
-        int s=0;
+        int sum=0;
         for(int num:nums)
-        s+=num;
-        int arr[][]= new int[n][s/2+1];
-        for(int i=0;i<n;i++)
-        {
-            Arrays.fill(arr[i],-1);
-        }
-        
-        if(s%2==1)
+        sum+=num;
+        if(sum%2!=0)
         return false;
-        return check(nums,s/2,nums.length-1,arr)==1;
-
-        
+        int tar=sum/2;
+        boolean dp[][]= new boolean[nums.length][tar+1];
+        for(int i=0;i<nums.length;i++)
+        dp[i][0]=true;
+        for(int j=1;j<=tar;j++)
+        {
+            if(nums[0]==j)
+            dp[0][j]=true;
+            
+        }
+        for(int i=1;i<nums.length;i++)
+        {
+            for(int j=0;j<=tar;j++)
+            {
+                boolean nottake=dp[i-1][j];
+        boolean take=false;
+        if(nums[i]<=j)
+        take=dp[i-1][j-nums[i]];
+        dp[i][j]= take|nottake;
+            }
+        }
+        return dp[nums.length-1][tar];
     }
-    public int check(int arr[],int tar,int i,int dp[][])
+    public boolean solve(int arr[],int idx,int tar)
     {
-        if(tar==0)
-        return 1;
-        if(i==0)
-        return arr[i]==tar?1:0;
-        if(dp[i][tar]!=-1)
-        return dp[i][tar];
-        int nottake=check(arr,tar,i-1,dp);
-        int take=0;
-        if(arr[i]<=tar)
-        take=check(arr,tar-arr[i],i-1,dp);
-        return  dp[i][tar]=take | nottake;
+        if(idx==0)
+        {
+            return (arr[0]==tar)?true:false;
+        }
+        boolean nottake=solve(arr,idx-1,tar);
+        boolean take=false;
+        if(arr[idx]<=tar)
+        take=solve(arr,idx-1,tar-arr[idx]);
+        return take|nottake;
     }
 }
