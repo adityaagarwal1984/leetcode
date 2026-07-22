@@ -7,14 +7,14 @@ class Solution {
         {
             Arrays.fill(dp[i],Integer.MAX_VALUE);
         }
-        // for(int i=0;i<n;i++)
-        // {
-        //     for(int shop=i;shop<=k;shop++)
-        //     {
-        //         dp[i][shop]=0;
-        //     }
-        // }
-        dp[0][0]=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int shop=i;shop<=k;shop++)
+            {
+                dp[i][shop]=0;
+            }
+        }
+        //dp[0][0]=0;
         for(int i=1;i<=n;i++)
         {
             for(int shop=1;shop<=Math.min(i,k);shop++)
