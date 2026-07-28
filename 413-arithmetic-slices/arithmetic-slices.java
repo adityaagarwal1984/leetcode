@@ -1,0 +1,20 @@
+class Solution {
+    public int numberOfArithmeticSlices(int[] nums) {
+        if (nums.length < 3) return 0;
+        
+        int totalSlices = 0;
+        int currentSlices = 0;
+        
+        for (int i = 2; i < nums.length; i++) {
+            // Check if the current element continues the arithmetic pattern
+            if (nums[i] - nums[i - 1] == nums[i - 1] - nums[i - 2]) {
+                currentSlices += 1;
+                totalSlices += currentSlices;
+            } else {
+                currentSlices = 0; // Reset sequence length
+            }
+        }
+        
+        return totalSlices;
+    }
+}
