@@ -13,45 +13,42 @@
  *     }
  * }
  */
+ // remember 1 thing in this 
+ // TreeMap<Integer,TreeMap<Integer,List<Integer>>> map;
 class Solution {
-    //col->[level,list]
-    TreeMap<Integer,TreeMap<Integer,List<Integer>>> map= new TreeMap<>();
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        
-        List<List<Integer>> ans= new ArrayList<>();
-        if(root==null)
-        return ans;
-
-        dfs(root,0,0);
-        for(Map.Entry<Integer,TreeMap<Integer,List<Integer>>> entry : map.entrySet())
+        TreeMap<Integer,TreeMap<Integer,List<Integer>>> map=
+         new TreeMap<>();
+         List<List<Integer>> ans= new ArrayList<>();
+         fill(root, map,0,0);
+        for(TreeMap<Integer,List<Integer>> submap: map.values())
         {
-            TreeMap<Integer,List<Integer>> submap= entry.getValue();
-            List<Integer> list= new ArrayList<>();
-            for(Map.Entry<Integer,List<Integer>> subsub : submap.entrySet())
+            List<Integer> per_col= new ArrayList<>();
+            for(List<Integer> ls: submap.values() )
             {
-                List<Integer> slist= subsub.getValue();
-                 Collections.sort(slist);
-                list.addAll(slist);
-               
+                Collections.sort(ls);
+                for(int num: ls)
+                {
+                    per_col.add(num);
+                }
             }
-            ans.add(list);
+            ans.add(new ArrayList<>(per_col));
+
         }
         return ans;
-
     }
-    public void dfs(TreeNode root, int col,int level)
+    public void fill(TreeNode root,TreeMap<Integer,TreeMap<Integer,List<Integer>>> map,int row,int col)
     {
         if(root==null)
         return;
-        // insert col
         if(!map.containsKey(col))
-        map.put(col, new TreeMap<>());
-        //add  level
-        if(!map.get(col).containsKey(level))
-        map.get(col).put(level, new ArrayList<>());
-        // add data
-        map.get(col).get(level).add(root.val);
-        dfs(root.left,col-1,level+1);
-         dfs(root.right,col+1,level+1);
+        map.put(col, new TreeMap());
+        if(!map.get(col).containsKey(row))
+        map.get(col).put(row,new ArrayList<>());
+        map.get(col).get(row).add(root.val);
+        fill(root.left,map,row+1,col-1);
+        fill(root.right,map,row+1,col+1);
+
+
     }
 }
