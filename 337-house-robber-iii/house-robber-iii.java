@@ -14,45 +14,56 @@
  * }
  */
 class Solution {
-    
     public int rob(TreeNode root) {
-        if(root==null)
-        return 0;
-        Map<TreeNode,Integer> map= new HashMap<>();
-        assign(map,root);
-        return robbery(root,map);
-       
+        HashMap<TreeNode,Integer> map= new HashMap<>();
+        fill(map,root);
+       return  solve(root,map);
     }
-    public int robbery(TreeNode root,Map<TreeNode,Integer> map)
+    public void fill(HashMap<TreeNode,Integer> map,TreeNode node)
     {
-        if(root==null)
-        return 0;
-         if(map.get(root)!=Integer.MIN_VALUE)
-        return map.get(root);
-
+        if(node==null) return;
+        map.put(node,-1);
+        fill(map,node.left);
+        fill(map,node.right);
+    }
+    public int solve(TreeNode root,HashMap<TreeNode,Integer> map)
+    {
+        if(root==null) return 0;
+        if(map.get(root)!=-1) return map.get(root);
         int take=root.val;
         if(root.left!=null)
-        take+=robbery(root.left.left,map)+robbery(root.left.right,map);
+        {
+            if(root.left.left!=null)
+            {
+                take+= solve(root.left.left,map);
+            }
+            if(root.left.right!=null)
+            {
+                take+= solve(root.left.right,map);
+            }
+        }
         if(root.right!=null)
-        take+=robbery(root.right.right,map)+robbery(root.right.left,map);
-
-        //nottake
-        int nottake=0;
+        {
+            if(root.right.left!=null)
+            {
+                take+= solve(root.right.left,map);
+            }
+            if(root.right.right!=null)
+            {
+                take+= solve(root.right.right,map);
+            }
+        }
+        int nottake= 0;
         if(root.left!=null)
-        nottake+=robbery(root.left,map);
+        {
+            nottake+= solve(root.left,map);
+        }
         if(root.right!=null)
-        nottake+=robbery(root.right,map);
+        {
+            nottake+= solve(root.right,map);
+        }
+        map.put(root,Math.max(take,nottake));
+        return Math.max(take,nottake);
+    }
 
-        int ans=Math.max(take,nottake);
-        map.put(root,ans);
-        return ans;
-    }
-    public void assign(Map<TreeNode,Integer> map,TreeNode root)
-    {
-        if(root==null)
-        return;
-        map.put(root,Integer.MIN_VALUE);
-        assign(map,root.left);
-        assign(map,root.right);
-    }
 }
