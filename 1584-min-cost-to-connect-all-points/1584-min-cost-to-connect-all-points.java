@@ -1,68 +1,49 @@
 class Solution {
-    static int rank[];
-    static int parent[];
     public int minCostConnectPoints(int[][] points) {
-        ArrayList<int[]> ls= new ArrayList<>();
+        List<List<int []>> ls= new ArrayList<>();
         for(int i=0;i<points.length;i++)
+        {
+            ls.add(new ArrayList<>());
+        }
+        for(int i=0;i< points.length;i++)
         {
             for(int j=i+1;j<points.length;j++)
             {
-                if(i!=j)
-                {
-                    int dis=Math.abs(points[i][0]-points[j][0])+Math.abs(points[i][1]-points[j][1]);
-                    ls.add(new int[]{i,j,dis});
-                }
+                int dis= Math.abs(points[i][0]-points[j][0])+
+                Math.abs(points[i][1]-points[j][1]);
+                ls.get(i).add(new int[]{j,dis});
+                ls.get(j).add(new int[]{i,dis});
+
             }
         }
-        Collections.sort(ls,(a,b)-> a[2]-b[2]);
-        int n= points.length;
-        rank= new int[n];
-        parent= new int[n];
-        for(int i=0;i<n;i++)
+       // int ans=0;
+        PriorityQueue<int[]> que= new PriorityQueue<>((a,b)->
         {
-            parent[i]=i;
-        }
-        int c=0;
+            return a[1]-b[1];
+        });
+        que.offer(new int[]{0,0});
+        int vis[]= new int[points.length];
+        //vis[0]=1;
         int ans=0;
-        for(int i=0;i<ls.size();i++)
+        int c=0;
+        while(!que.isEmpty())
         {
-            if(c==n-1) break;
-            int u= ls.get(i)[0];
-            int v= ls.get(i)[1];
-            if(find(u)==find(v)) continue;
-            union(u,v);
-            c++;
-            ans+=ls.get(i)[2];
+            int curr[]= que.poll();
+            int u= curr[0];
+            int w= curr[1];
+            if(vis[u]==1)
+            continue;
+            vis[u]=1;
+             ans+= w;
+
+            for(int nei[]: ls.get(u))
+            {
+                que.offer(new int[]{nei[0],nei[1]});
+            }
+            
+
         }
         return ans;
-    }
-    public int find(int node)
-    {
-        if(parent[node]==node)
-        {
-            return parent[node];
-        }
-        int p=find(parent[node]);
-        parent[node]=p;
-        return parent[node];
-    }
-    public void union(int u,int v)
-    {
-        int pu= find(u);
-        int pv= find(v);
-        if(pu==pv) return;
-        if(rank[pu]<rank[pv])
-        {
-            parent[pu]=pv;
-        }
-        else if(rank[pv]<rank[pu])
-        {
-            parent[pv]=pu;
-        }
-        else
-        {
-            parent[pu]=pv;
-            rank[pv]++;
-        }
+
     }
 }
