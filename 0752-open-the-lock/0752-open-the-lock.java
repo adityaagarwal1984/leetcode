@@ -34,10 +34,10 @@ class Solution {
             String s="";
             arr[i]=(char)(a+'0');
             f= new String(arr);
-            if(f.equals(target)) return time+1;
+            //if(f.equals(target)) return time+1;
             arr[i]=(char)(b+'0');
             s= new String(arr);
-            if(s.equals(target)) return time+1;
+            //if(s.equals(target)) return time+1;
             if( !set.contains(f))
             {
                set.add(f);
