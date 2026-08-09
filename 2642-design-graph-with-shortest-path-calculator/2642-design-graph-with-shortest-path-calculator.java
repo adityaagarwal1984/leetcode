@@ -37,11 +37,11 @@ class Graph {
             int curr[]= que.poll();
             int nei_node= curr[0];
             int nei_wei= curr[1];
-
+             if(nei_wei> dis[nei_node] ) continue;
             for(int nei[]: ls.get(curr[0]))
             {
-                if(nei_wei> dis[nei[0]] ) continue;
-                else if(nei[1]+nei_wei< dis[nei[0]])
+                
+                 if(nei[1]+nei_wei< dis[nei[0]])
                 {
                     dis[nei[0]]= nei[1]+nei_wei;
                     que.offer(new int[]{nei[0],nei[1]+nei_wei});
